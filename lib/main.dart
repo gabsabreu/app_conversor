@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 import 'dart:convert';
@@ -33,6 +34,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final realController = TextEditingController();
+  final dolarController = TextEditingController();
+  final euroController = TextEditingController();
+
+  late double dolar;
+  late double euro;
+
+  void _realChanged(String text) {
+    print(text);
+  }
+
+  void _dolarChanged(String text) {
+    print(text);
+  }
+
+  void _euroChanged(String text) {
+    print(text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,9 +80,10 @@ class _HomeState extends State<Home> {
                                 TextStyle(color: Colors.amber, fontSize: 25.0),
                             textAlign: TextAlign.center));
                   } else {
-                    // dolar =
-                    //     snapshot.data["results"]["currencies"]["USD"]["buy"];
-                    // euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
+                    dolar =
+                        snapshot.data!["results"]["currencies"]["USD"]["buy"];
+                    euro =
+                        snapshot.data!["results"]["currencies"]["EUR"]["buy"];
                     return SingleChildScrollView(
                       padding: EdgeInsets.all(10.0),
                       child: Column(
@@ -71,32 +92,14 @@ class _HomeState extends State<Home> {
                         children: <Widget>[
                           Icon(Icons.monetization_on,
                               size: 150.0, color: Colors.amber),
-                          TextField(
-                            decoration: InputDecoration(
-                                labelText: "Reais",
-                                labelStyle: TextStyle(color: Colors.amber),
-                                prefixText: "R\$"),
-                            style:
-                                TextStyle(color: Colors.amber, fontSize: 25.0),
-                          ),
+                          buildTextField(
+                              "Reais", "R\$", realController, _realChanged),
                           Divider(),
-                          TextField(
-                            decoration: InputDecoration(
-                                labelText: "Dólares",
-                                labelStyle: TextStyle(color: Colors.amber),
-                                prefixText: "US\$"),
-                            style:
-                                TextStyle(color: Colors.amber, fontSize: 25.0),
-                          ),
+                          buildTextField("Dólares", "US\$", dolarController,
+                              _dolarChanged),
                           Divider(),
-                          TextField(
-                            decoration: InputDecoration(
-                                labelText: "Euros",
-                                labelStyle: TextStyle(color: Colors.amber),
-                                prefixText: "€"),
-                            style:
-                                TextStyle(color: Colors.amber, fontSize: 25.0),
-                          )
+                          buildTextField(
+                              "Euros", "€", euroController, _euroChanged),
                         ],
                       ),
                     );
@@ -104,6 +107,20 @@ class _HomeState extends State<Home> {
               }
             }));
   }
+}
+
+Widget buildTextField(String label, String prefix,
+    TextEditingController controll, Function(String) f) {
+  return TextField(
+    controller: controll,
+    decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.amber),
+        prefixText: prefix),
+    style: TextStyle(color: Colors.amber, fontSize: 25.0),
+    onChanged: f,
+    keyboardType: TextInputType.number,
+  );
 }
 
 Future<Map> getData() async {
