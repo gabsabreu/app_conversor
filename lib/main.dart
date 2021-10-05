@@ -64,6 +64,7 @@ class _HomeState extends State<Home> {
                     //     snapshot.data["results"]["currencies"]["USD"]["buy"];
                     // euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
                     return SingleChildScrollView(
+                      padding: EdgeInsets.all(10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         // ignore: prefer_const_literals_to_create_immutables
@@ -75,6 +76,24 @@ class _HomeState extends State<Home> {
                                 labelText: "Reais",
                                 labelStyle: TextStyle(color: Colors.amber),
                                 prefixText: "R\$"),
+                            style:
+                                TextStyle(color: Colors.amber, fontSize: 25.0),
+                          ),
+                          Divider(),
+                          TextField(
+                            decoration: InputDecoration(
+                                labelText: "Dólares",
+                                labelStyle: TextStyle(color: Colors.amber),
+                                prefixText: "US\$"),
+                            style:
+                                TextStyle(color: Colors.amber, fontSize: 25.0),
+                          ),
+                          Divider(),
+                          TextField(
+                            decoration: InputDecoration(
+                                labelText: "Euros",
+                                labelStyle: TextStyle(color: Colors.amber),
+                                prefixText: "€"),
                             style:
                                 TextStyle(color: Colors.amber, fontSize: 25.0),
                           )
